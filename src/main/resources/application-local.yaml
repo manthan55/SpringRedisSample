@@ -1,0 +1,6 @@
+# activate this profile when running the app locally (via IntelliJ)
+spring:
+  data:
+    redis:
+      host: "localhost"
+      port: "6379"

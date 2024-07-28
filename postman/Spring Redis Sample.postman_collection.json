@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "87c854c2-f048-4e23-979f-9fdbe705597f",
+		"name": "Spring Redis Sample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10590038"
+	},
+	"item": [
+		{
+			"name": "HelloWorldController -- /",
+			"item": [
+				{
+					"name": "/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PostController -- /post",
+			"item": [
+				{
+					"name": "GetAllPosts  -- /post/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/post/",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"post",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPost  -- /post/{postId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/post/:postId",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"post",
+								":postId"
+							],
+							"variable": [
+								{
+									"key": "postId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
