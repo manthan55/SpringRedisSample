@@ -1,20 +1,60 @@
 # SpringRedisSample
 This is a sample application demonstration redis caching capabilities in Spring Boot. This app is also deployable to AWS ElasticBeanstalk and integrates with AWS ElastiCache.
 
+---
+
 ## Reach out to Me
 - [LinkedIn - Manthan Patidar](https://www.linkedin.com/in/manthan-patidar/)
 - [Slack - Manthan Patidar](https://scaler-co.slack.com/team/U0375PUUKFC)
     - Reachable only by Scaler students
 
+---
+
 ## Application Overview
+- A simple post management system allowing Read operations on and `Posts` using SQLite DB as persistence store.
+- During the startup sequence, the project seeds dummy data into the SQLite database to have something to play with. This is done via the `SeedData` class within `startup` package.
+
+> **Note:** All data is wiped (from both SQLite DB as well as ES) on every reboot of the app.
+
 - The app has 3 endpoints
-    - `/` -> Hello world endpoint which redirects to `/actuator/info`
-    - `/posts/` -> Get all posts
-    - `/post/{postId}` -> retrieve post by id
-        - this endpoint is cached by redis
+    - `GET /` -> Hello world endpoint which redirects to `/actuator/info`
+    - `GET /posts/` -> Get all posts
+    - `GET /post/{postId}` -> retrieve post by id
+        - The initial call will take `4 seconds` to respond - but subsequent calls will be much faster thanks to reading from redis cache. The TTL for entries in cache is set to `30 seconds`.
+> **Note:** As we are using SQLite database, the code intentionally includes a `4 second` delay to simulate a proper (over network) DB call.
+
 - Refer postman folder for collection & environment (you can import in postman)
 
-## AWS ElastiCache Setup
+### Spring Profiles
+
+The Spring Boot project contain multiple `application.yaml` files accounting for multiple environments/profiles
+- application-local.yaml
+	- is used when running the project locally via IntelliJ and uses the dependencies running in docker containers (or you can also setup other locally running dependencies)
+- application-aws.yaml
+	- is used when the app is deployed on AWS Elasticbeanstalk and uses AWS Elasticache
+
+The above profiles can be switched at runtime by setting the environment variable,
+
+```
+SPRING_PROFILES_ACTIVE=aws
+```
+
+---
+
+## Running Locally
+- Open the project in IntelliJ
+- Make sure the redis server is running before you run the project
+    - redis server can be setup via docker or by any other means (docker setup can be achieved by running the provided `docker-compose.yml` file in the docker folder)
+
+## Running on AWS
+- Setup AWS ElastiCache (steps mentioned below)
+- Copy the AWS ElastiCache endpoint & port in `application-aws.yaml` file
+- Create a `.jar` file
+- Setup AWS ElasticBeanstalk and deploy the `.jar` file.
+
+---
+
+### AWS ElastiCache Setup
 1. Go To AWS Elasticache > Redis OSS Cache > Create and then select the following configuration options
 ![Create AWS ElastiCache - Configuration](./docs/assets/CreateAwsElastiCache_1.PNG?raw=true)
 
@@ -64,3 +104,6 @@ This is a sample application demonstration redis caching capabilities in Spring 
 
 12. Hit `Create`
     - it takes about `~10` minutes to become available
+
+13. Once created the endpoint is available here
+![Create AWS ElastiCache - Endpoint](./docs/assets/CreateAwsElastiCache_12.PNG?raw=true)
