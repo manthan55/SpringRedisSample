@@ -1,3 +1,6 @@
+# docker-compose up -d
+# docker-compose down
+
 version: "3"
 
 services:
@@ -5,6 +8,7 @@ services:
     image: "bitnami/redis:7.0.15"
     container_name: "redis"
     ports:
+#      - external:internal
       - "6379:6379"
     environment:
       - ALLOW_EMPTY_PASSWORD=yes

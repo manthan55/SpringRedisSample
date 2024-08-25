@@ -39,6 +39,7 @@ public class PostService {
         post = postOptional.get();
         // https://stackoverflow.com/a/64161239
         redisTemplate.opsForValue().set(postId, post, 30, TimeUnit.SECONDS);
+//        redisTemplate.opsForValue().set(postId, post);
         return post;
     }
 
